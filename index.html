@@ -1,51 +1,500 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
   <meta charset="UTF-8">
-  <title>Smart Irrigation System</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IoT-based Irrigation System</title>
+  <style>
+    :root {
+      --primary-green: #1b4332;
+      --accent-green: #2d6a4f;
+      --medium-green: #40916c;
+      --light-green: #52b788;
+      --soft-bg-green: #f0f7f4;
+      --card-bg: #ffffff;
+      --text-dark: #1b281b;
+      --text-sub: #4a5d4e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pyidaungsu', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--soft-bg-green);
+      color: var(--text-dark);
+      line-height: 1.7;
+      scroll-behavior: smooth;
+    }
+
+    /* Navigation Bar */
+    nav {
+      background: var(--primary-green);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .nav-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+    }
+
+    .nav-brand {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 18px;
+    }
+
+    .nav-links a {
+      color: #e0f2fe;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--light-green);
+    }
+
+    /* Top Banner Header */
+    header {
+      background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+      color: white;
+      padding: 50px 20px 60px 20px;
+      text-align: center;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+    }
+
+    header h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    header p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: -30px auto 40px auto;
+      padding: 0 15px;
+    }
+
+    /* Scan Success Card */
+    .scan-card {
+      background: #e8f5e9;
+      border: 2px solid var(--medium-green);
+      border-radius: 16px;
+      padding: 20px 25px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 8px 20px rgba(45, 106, 79, 0.08);
+      margin-bottom: 25px;
+    }
+
+    .scan-icon {
+      font-size: 32px;
+      background: var(--accent-green);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .scan-info h3 {
+      color: var(--primary-green);
+      font-size: 19px;
+      margin-bottom: 4px;
+    }
+
+    .scan-info p {
+      color: var(--text-sub);
+      font-size: 14px;
+    }
+
+    /* Main Section Cards */
+    .section-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 25px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+      border: 1px solid #e1ebe5;
+      border-left: 6px solid var(--medium-green);
+    }
+
+    .section-title {
+      font-size: 21px;
+      color: var(--primary-green);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 2px solid #edf4f0;
+      padding-bottom: 10px;
+    }
+
+    /* Controllers Detailed Grid */
+    .controller-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .controller-card {
+      background: #f4f9f6;
+      border: 1px solid #d8e8de;
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .controller-card h3 {
+      color: var(--primary-green);
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    /* Flow Step List */
+    .flow-steps {
+      list-style: none;
+      counter-reset: flow-step;
+    }
+.flow-steps li {
+      counter-increment: flow-step;
+      position: relative;
+      padding-left: 48px;
+      margin-bottom: 20px;
+    }
+
+    .flow-steps li::before {
+      content: counter(flow-step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 34px;
+      height: 34px;
+      background: var(--medium-green);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .flow-steps h4 {
+      font-size: 17px;
+      color: var(--primary-green);
+      margin-bottom: 4px;
+    }
+
+    .flow-steps p {
+      color: var(--text-sub);
+      font-size: 15px;
+    }
+
+    /* Mode Boxes */
+    .mode-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .mode-box {
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .mode-auto {
+      background: #f0f7ff;
+      border: 1px solid #d0e3ff;
+      border-left: 5px solid #2196f3;
+    }
+
+    .mode-manual {
+      background: #fff9ed;
+      border: 1px solid #ffe3b3;
+      border-left: 5px solid #ff9800;
+    }
+
+    .mode-box h4 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .mode-auto h4 { color: #1976d2; }
+    .mode-manual h4 { color: #f57c00; }
+
+    /* Component Grid */
+    .comp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .comp-item {
+      background: #f4f9f6;
+      border: 1px solid #d8e8de;
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .comp-item h4 {
+      color: var(--primary-green);
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .comp-item p {
+      color: var(--text-sub);
+      font-size: 14px;
+    }
+
+    /* Gallery Photos Section */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .gallery-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #d8e8de;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: #e1ebe5;
+    }
+
+    .gallery-card-body {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .gallery-card-body h4 {
+      font-size: 16px;
+      color: var(--primary-green);
+      margin-bottom: 4px;
+    }
+
+    .gallery-card-body p {
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: white;
+      font-size: 14px;
+      background: var(--primary-green);
+      margin-top: 50px;
+    }
+
+    @media (max-width: 650px) {
+      .nav-container { flex-direction: column; gap: 10px; }
+      header h1 { font-size: 22px; }
+      .section-card { padding: 20px; }
+      .flow-steps li { padding-left: 40px; }
+    }
+  </style>
 </head>
 <body>
+
+  
+  <header>
+    <h1>🪴 IoT-based Irrigation System</h1>
+    <p>IoT အခြေခံ အလိုအလျောက် စိုက်ပျိုးရေး ရေသွင်းစနစ်</p>
+  </header>
+
   <div class="container">
-    <h1>🌱 SMART IRRIGATION SYSTEM</h1>
-    <img src="project.jpg" alt="Project Image" class="hero-img">
 
-    <section>
-      <h2>📌 Overview</h2>
-      <p>ဒီ Project က စိုက်ပျိုးရာမှာ ရေသုံးစွဲမှုကို လျှော့ချပြီး အလိုအလျောက် irrigation လုပ်နိုင်ဖို့ ရည်ရွယ်ထားပါတယ်။</p>
-    </section>
+    <!-- 1. Scan Success Card -->
+    <div class="scan-card">
+      <div class="scan-icon">✓</div>
+      <div class="scan-info">
+        <h3>Scan ဖတ်ခြင်း အောင်မြင်ပါသည်</h3>
+        <p>စနစ်နှင့် ချိတ်ဆက်ပြီးပါပြီ။ Project ၏ လုပ်ဆောင်ချက် အသေးစိတ်ကို အောက်တွင် ကြည့်ရှုနိုင်ပါသည်။</p>
+      </div>
+    </div>
+<!-- 2. Project Title & Overview -->
+    <div class="section-card" id="overview">
+      <h2 class="section-title">📌 Project အကြောင်း (Overview)</h2>
+      <p>
+        ဒီ Project ကတော့ <strong>ESP32 Microcontroller</strong> နဲ့ <strong>Arduino Uno</strong> တို့ကို ပေါင်းစပ်အသုံးပြုထားပြီး၊ ကိုယ်တိုင် ဖန်တီးတည်ဆောက်ထားသည့် <strong>Custom Node.js Server</strong> ဖြင့် မောင်းနှင်သော <strong>IoT-based Smart Irrigation System (အလိုအလျောက် ရေသွင်းစနစ်)</strong> ဖြစ်ပါတယ်။ မြေဆီလွှာ စိုထိုင်းဆနှင့် ရာသီဥတု အခြေအနေများကို အချိန်နှင့်တစ်ပြေးညီ စောင့်ကြည့်ပြီး သီးနှံများ လိုအပ်သည့်အချိန်၌သာ အလိုအလျောက် ရေလောင်းပေးနိုင်အောင် စနစ်တကျ ဖန်တီးထားခြင်း ဖြစ်ပါသည်။
+      </p>
+    </div>
 
-    <section>
-      <h2>🎯 Objectives</h2>
-      <ul>
-        <li>Water Saving</li>
-        <li>Automatic Irrigation</li>
-      </ul>
-    </section>
+    <!-- 3. Hardware Architecture & Controllers -->
+    <div class="section-card" id="controllers">
+      <h2 class="section-title">⚡ Controllers ၏ အဓိက တာဝန်ယူဆောင်ရွက်မှုများ</h2>
+      <div class="controller-grid">
+        
+        <div class="controller-card">
+          <h3>🤖 Arduino Uno</h3>
+          <p><strong>• Sensor Data ရယူခြင်း -</strong> Soil Moisture Sensor၊ Rain Sensor များနှင့် တိုက်ရိုက်ချိတ်ဆက်ထားပြီး ပတ်ဝန်းကျင်ဆိုင်ရာ Analog/Digital အချက်အလက်များကို တိကျစွာ ဖတ်ယူပေးပါသည်။</p>
+          <p><strong>• Communication -</strong> ဖတ်ယူရရှိသော Sensor Data များကို Serial Communication မှတစ်ဆင့် ESP32 ထံသို့ ပို့ဆောင်ပေးပါသည်။</p>
+        </div>
 
-    <section>
-      <h2>⚙️ How It Works</h2>
-      <p>Soil Moisture Sensor → Controller → Relay → Water Pump</p>
-    </section>
+        <div class="controller-card">
+          <h3>📡 ESP32 Microcontroller</h3>
+          <p><strong>• Wi-Fi Connectivity & IoT Gateway -</strong> Arduino Uno ထံမှ ရရှိလာသော Data များကို Wi-Fi ကွန်ရက်မှတစ်ဆင့် ကိုယ်တိုင် ရေးသားထားသော Node.js Server သို့ ပို့ဆောင်ပေးပါသည်။</p>
+          <p><strong>• Output Execution -</strong> Server/Logic မှ ပြန်လာသော အမိန့်အတိုင်း Relay Module များကို ထိန်းချုပ်၍ Water Pump ရေပန့်မော်တာများကို အဖွင့်/အပိတ် ပြုလုပ်ပေးပါသည်။</p>
+        </div>
 
-    <section>
-      <h2>🔧 Components</h2>
-      <ul>
-        <li>ESP32</li>
-        <li>Soil Moisture Sensor</li>
-        <li>Water Pump</li>
-        <li>Relay</li>
-      </ul>
-    </section>
+      </div>
+    </div>
 
-    <section>
-      <h2>✨ Features</h2>
-      <ul>
-        <li>Automatic watering</li>
-        <li>Soil monitoring</li>
-        <li>Real-time data</li>
-      </ul>
-    </section>
+    <!-- 4. Node.js Server & System Workflow -->
+    <div class="section-card" id="workflow">
+      <h2 class="section-title">⚙️ စနစ် လုပ်ဆောင်ပုံ အဆင့်ဆင့် (System Workflow)</h2>
+      <ol class="flow-steps">
+        <li>
+          <h4>Sensors & Arduino Uno Data ရယူခြင်း</h4>
+          <p>စနစ်စတင်သည်နှင့် Arduino Uno သည် တပ်ဆင်ထားသော Sensor များမှ Soil Moisture နှင့် Rain Data များကို စတင်တိုင်းတာပါသည်။</p>
+        </li>
+        <li>
+          <h4>ESP32 သို့ Data ပို့ခြင်းနှင့် Wi-Fi မှတစ်ဆင့် ပို့ဆောင်ခြင်း</h4>
+          <p>Arduino Uno မှ Data များကို ESP32 သို့ ပို့ပေးပြီး၊ ESP32 က Wi-Fi ကွန်ရက်မှတစ်ဆင့် <strong>Custom Node.js Server</strong> ထံသို့ အချက်အလက်များ ပို့ဆောင်ပေးပါသည်။</p>
+        </li>
+        <li>
+          <h4>Node.js Server မှ စစ်ဆေးတွက်ချက်ခြင်း</h4>
+          <p>ကိုယ်တိုင် တည်ဆောက်ထားသော <strong>Node.js Server</strong> မှ ရရှိလာသော Sensor Data များကို လက်ခံစစ်ဆေးပြီး ရေလောင်းရန် လို/မလို ဆုံးဖြတ်ချက် တွက်ချက်ပေးပါသည်။</p>
+        </li>
+        <li>
+          <h4>ESP32 သို့ အကြောင်းပြန်ခြင်းနှင့် Water Pump အလုပ်လုပ်ခြင်း</h4>
+          <p>Server ၏ ဆုံးဖြတ်ချက်အတိုင်း ESP32 ထံ အကြောင်းပြန်ပေးပြီး၊ ESP32 က <strong>Relay Module</strong> မှတစ်ဆင့် <strong>Water Pump (ရေပန့်)</strong> ကို အလိုအလျောက် ပွင့်စေ/ပိတ်စေ ပါသည်။</p>
+        </li>
+        <li>
+          <h4>Web Dashboard သို့ အချိန်နှင့်တစ်ပြေးညီ ပြသခြင်း</h4>
+          <p>ရေပန့် ပွင့်/ပိတ်သည့် အခြေအနေနှင့် တိုင်းတာရရှိသမျှ အချက်အလက်များကို <strong>Web Dashboard</strong> ပေါ်တွင် Real-time (အချိန်နှင့်တစ်ပြေးညီ) ပို့ဆောင်ပြသပေးပါသည်။</p>
+        </li>
+      </ol>
+    </div>
+
+    <!-- 5. Auto vs Manual Modes -->
+    <div class="section-card" id="modes">
+      <h2 class="section-title">🎛️ Auto နဲ့ Manual ထိန်းချုပ်မှု စနစ် (Operation Modes)</h2>
+      <div class="mode-container">
+        <div class="mode-box mode-auto">
+          <h4>🤖 Auto Mode (အလိုအလျောက် စနစ်)</h4>
+          <p><strong>• ရေလောင်းမည့် အခြေအနေ -</strong> Soil Moisture Sensor မှ မြေဆီလွှာ စိုထိုင်းဆ <strong>30% အောက်</strong> လျော့နည်းသွားပါက ရေပန့်မော်တာ ပွင့်ပြီး အလိုအလျောက် ရေလောင်းပေးမည်။</p>
+ <p><strong>• မိုးရွာပါက စောင့်ဆိုင်းမည့် အခြေအနေ -</strong> မြေဆီလွှာ စိုထိုင်းဆ 30% အောက် ရောက်နေသော်လည်း <strong>Rain Sensor က Rain (Yes)</strong> ဟု ပြနေပါက မိုးရွာနေသည့်အတွက် ရေပန့် မပွင့်ဘဲ မိုးစဲသည်အထိ စောင့်ဆိုင်းမည်။</p>
+        </div>
+
+        <div class="mode-box mode-manual">
+          <h4>🖐️ Manual Mode (ကိုယ်တိုင် ထိန်းချုပ်စနစ်)</h4>
+          <p>Manual Mode ကို ပြောင်းလဲလိုက်ပါက Sensor များ၏ သတ်မှတ်ချက်အတိုင်း မဟုတ်ဘဲ Web Dashboard မှတစ်ဆင့် အသုံးပြုသူ ကိုယ်တိုင် ရေပန့်မော်တာကို အဖွင့်/အပိတ် ပြုလုပ်နိုင်သည်။</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Main Components Included -->
+    <div class="section-card">
+      <h2 class="section-title">🛠️ အဓိက အသုံးပြုထားသော Components များ</h2>
+      <div class="comp-grid">
+        <div class="comp-item">
+          <h4>📡 ESP32 Microcontroller</h4>
+          <p>Wi-Fi ချိတ်ဆက်မှုနှင့် Node.js Server သို့ Data များ ပို့ဆောင်ပေးသည့် မိုခရိုကွန်ထရိုလာ။</p>
+        </div>
+        <div class="comp-item">
+          <h4>🤖 Arduino Uno Board</h4>
+          <p>Sensor များထံမှ Analog/Digital Data များကို တိကျစွာ ဖတ်ယူပေးသည့် Controller။</p>
+        </div>
+        <div class="comp-item">
+          <h4>💻 Custom Node.js Server</h4>
+          <p>ကိုယ်တိုင် ရေးသားဆောက်လုပ်ထားပြီး Data စစ်ဆေးမှုနှင့် Logic စီမံပေးသည့် Server စနစ်။</p>
+        </div>
+        <div class="comp-item">
+          <h4>🌱 Soil Moisture Sensor</h4>
+          <p>မြေဆီလွှာ၏ စိုထိုင်းဆ % ကို တိကျစွာ တိုင်းတာပေးသည့် Sensor။</p>
+        </div>
+        <div class="comp-item">
+          <h4>🌧️ Rain Sensor</h4>
+          <p>မိုးရွာနေခြင်း ရှိ/မရှိ စစ်ဆေးပေးသည့် မိုးရေစိမ့် Sensor။</p>
+        </div>
+        <div class="comp-item">
+          <h4>🔌 Relay Module & Water Pump</h4>
+          <p>ESP32 ၏ အမိန့်အတိုင်း ရေပန့်ကို အလိုအလျောက် အဖွင့်/အပိတ် ပြုလုပ်ပေးသည့် မော်တာ စနစ်။</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Project Gallery Section -->
+    <div class="section-card" id="gallery">
+      <h2 class="section-title">🖼️ Project ပြုလုပ်မှု မှတ်တမ်းပုံရိပ်များ (Project Gallery)</h2>
+      <div class="gallery-grid">
+        
+        <div class="gallery-card">
+          <img src="pic/pj1.jpg" alt="Hardware Setup" onerror="this.src='https://via.placeholder.com/300x200?text=Hardware+Wiring+Setup'">
+          <div class="gallery-card-body">
+            <h4>Hardware & Circuit Setup</h4>
+            
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <img src="pic/pj2.jpg" alt="Testing Project" onerror="this.src='https://via.placeholder.com/300x200?text=Sensors+Testing'">
+          <div class="gallery-card-body">
+            <h4>Sensor & Testing Phase</h4>
+            
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <img src="pic/pj7.jpg" alt="Web Dashboard" onerror="this.src='https://via.placeholder.com/300x200?text=Web+Dashboard+UI'">
+          <div class="gallery-card-body">
+            <h4>Node.js & Web Dashboard</h4>
+           
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
+
+  <footer>
+    <p>© IoT-based Smart Irrigation System Project | Powered by ESP32 & Arduino Uno</p>
+  </footer>
+
 </body>
 </html>
